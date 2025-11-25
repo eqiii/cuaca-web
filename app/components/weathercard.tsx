@@ -1,3 +1,5 @@
+// file: /components/weather-card.tsx
+
 "use client";
 
 import { useState } from "react";
@@ -14,7 +16,6 @@ export default function WeatherCard() {
 
     try {
       setLoading(true);
-
       const geo = await getCityCoords(city);
       const w = await fetchWeather(geo.latitude, geo.longitude);
 
@@ -28,69 +29,105 @@ export default function WeatherCard() {
   }
 
   return (
-    <div className="bg-gray-900 p-6 rounded-2xl shadow-xl w-96 text-center border border-gray-700">
+    <div className="w-140 bg-gray-900 rounded-2xl shadow-xl border border-gray-700 p-6 ml-40 h-[300px] flex flex-col">
 
-      {/* INPUT SEARCH */}
-      <input
-        value={city}
-        onChange={(e) => setCity(e.target.value)}
-        onKeyDown={(e) => {
-          if (e.key === "Enter") searchCityWeather();
-        }}
-        placeholder="Search city..."
-        className="w-full mb-4 px-3 py-2 rounded-lg bg-gray-800 border border-gray-700 text-white"
-      />
+      
+      {/* Header */}
+      <div className="flex items-center justify-between mb-4 shrink-0">
+        <h2 className="text-xl font-bold text-white">Weather</h2>
+        <div className="grow h-px bg-red-500 ml-4"></div>
+      </div>
 
-      <button
-        onClick={searchCityWeather}
-        className="w-full bg-blue-600 hover:bg-blue-700 py-2 rounded-lg font-bold"
-      >
-        {loading ? "Searching..." : "Search"}
-      </button>
+      {/* Body → ATM Style: LEFT input | RIGHT info */}
+      <div className="flex gap-6 flex-1 overflow-hidden">
+        
+        {/* LEFT - Search */}
+        <div className="w-1/3 shrink-0 flex flex-col">
+          <input
+            value={city}
+            onChange={(e) => setCity(e.target.value)}
+            onKeyDown={(e) => e.key === "Enter" && searchCityWeather()}
+            placeholder="Cari kota..."
+            className="w-full mb-3 px-3 py-2 rounded-lg bg-gray-800 border border-gray-700 text-white focus:border-blue-500"
+          />
 
-      {/* Jika belum ada data */}
-      {!weather ? (
-        <p className="mt-4 text-gray-400">Enter a city to see weather</p>
-      ) : (
-        <>
-          <h1 className="text-2xl font-bold mt-4 text-white">
-            Weather — {cityName}
-          </h1>
+          <button
+            onClick={searchCityWeather}
+            disabled={loading}
+            className="w-full bg-blue-600 hover:bg-blue-700 disabled:bg-blue-800 py-2 rounded-lg font-bold transition"
+          >
+            {loading ? "Mencari..." : "Cari"}
+          </button>
+        </div>
 
-          <p className="text-gray-300 mt-2">
-            Temp:{" "}
-            <span className="text-yellow-300 font-bold">
-              {weather.current_weather.temperature}°C
-            </span>
-          </p>
+        {/* RIGHT – ALWAYS SAME HEIGHT (Scrollable part inside) */}
+        <div className="flex-1 overflow-hidden">
+          {!weather ? (
+            <div className="flex items-center justify-center h-full text-gray-400">
+              Masukkan nama kota untuk melihat cuaca
+            </div>
+          ) : (
+            <div className="h-full flex flex-col overflow-hidden">
+              
+              {/* TOP INFO */}
+              <div className="flex items-center gap-4 mb-3 shrink-0">
+                <div className="w-16 h-16 bg-gray-700 rounded-full"></div>
 
-          <p className="text-gray-300 mt-2">
-            Wind:{" "}
-            <span className="text-blue-300 font-bold">
-              {weather.current_weather.windspeed} km/h
-            </span>
-          </p>
+                <div>
+                  <h3 className="text-lg font-semibold text-white">
+                    {cityName}
+                  </h3>
+                  <p className="text-3xl font-bold text-yellow-300">
+                    {weather.current_weather.temperature}°C
+                  </p>
+                </div>
+              </div>
 
-          <p className="text-gray-300 mt-2">
-            Time:{" "}
-            <span className="text-green-300">
-              {weather.current_weather.time}
-            </span>
-          </p>
+              {/* Middle Info */}
+              <div className="text-gray-300 text-sm space-y-1 mb-3 shrink-0">
+                <p>
+                  Angin:{" "}
+                  <span className="font-bold text-blue-300">
+                    {weather.current_weather.windspeed} km/h
+                  </span>
+                </p>
+                <p>
+                  Waktu:{" "}
+                  <span className="font-bold text-green-300">
+                    {new Date(weather.current_weather.time).toLocaleString(
+                      "id-ID",
+                      { hour: "2-digit", minute: "2-digit" }
+                    )}
+                  </span>
+                </p>
+              </div>
 
-          <h2 className="mt-4 font-bold text-lg text-purple-300">
-            Hourly Forecast
-          </h2>
+              {/* Scrollable section */}
+              <div className="flex-1 overflow-y-auto bg-gray-800 rounded-lg p-2">
+                <h4 className="font-bold text-purple-300 mb-2">
+                  Prakiraan Per Jam
+                </h4>
 
-          <ul className="text-gray-300 mt-2 text-sm max-h-40 overflow-y-auto">
-            {weather.hourly.time.slice(0, 12).map((t, i) => (
-              <li key={i} className="py-1 border-b border-gray-700">
-                {t} — {weather.hourly.temperature_2m[i]}°C
-              </li>
-            ))}
-          </ul>
-        </>
-      )}
+                <ul className="text-gray-300 text-xs grid grid-cols-2 gap-x-4 gap-y-1">
+                  {weather.hourly.time.slice(0, 8).map((t, i) => (
+                    <li key={i} className="flex justify-between">
+                      <span>
+                        {new Date(t).toLocaleTimeString("id-ID", {
+                          hour: "2-digit",
+                        })}
+                      </span>
+                      <span className="font-bold">
+                        {weather.hourly.temperature_2m[i]}°C
+                      </span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+
+            </div>
+          )}
+        </div>
+      </div>
     </div>
   );
 }

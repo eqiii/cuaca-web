@@ -1,7 +1,15 @@
-import type { NextConfig } from "next";
+/** @type {import('next').NextConfig} */
+const nextConfig = {
+  images: {
+    domains: [
+      'cloud.jpnn.com',
+      // Tambahkan domain lain yang mungkin diperlukan
+      'example.com',
+      'another-domain.com'
+    ],
+    // Opsi lain yang mungkin berguna
+    unoptimized: true,
+  },
+}
 
-const nextConfig: NextConfig = {
-  /* config options here */
-};
-
-export default nextConfig;
+module.exports = nextConfig

@@ -1,1 +1,33 @@
 @import "tailwindcss";
+
+/* GALAXY BACKGROUND */
+.galaxy-bg {
+  background: radial-gradient(circle at top, #111827, #0c0f1a 60%, #000 100%);
+  position: relative;
+  overflow: hidden;
+}
+
+/* Bintang-bintang kecil */
+.galaxy-bg::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 200%;
+  height: 200%;
+  background-image: 
+    radial-gradient(1px 1px at 20% 30%, rgba(255,255,255,0.4) 50%, transparent 50%),
+    radial-gradient(1px 1px at 70% 80%, rgba(255,255,255,0.35) 50%, transparent 50%),
+    radial-gradient(1px 1px at 40% 60%, rgba(255,255,255,0.25) 50%, transparent 50%),
+    radial-gradient(1px 1px at 90% 20%, rgba(255,255,255,0.32) 50%, transparent 50%),
+    radial-gradient(1px 1px at 10% 85%, rgba(255,255,255,0.3) 50%, transparent 50%);
+  background-repeat: repeat;
+  animation: starsMove 60s linear infinite;
+  opacity: 0.35;
+}
+
+/* Animasi bintang bergerak pelan */
+@keyframes starsMove {
+  from { transform: translate(0, 0); }
+  to { transform: translate(-200px, -200px); }
+}
