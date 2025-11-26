@@ -28,13 +28,10 @@ export default function NewsCard() {
         const response = await fetch(
           "https://newsdata.io/api/1/latest?apikey=pub_67a37a43b9de4f9c96bf1e2c7cc3f417&q=cuaca&country=id"
         );
-        
-        if (!response.ok) {
-          throw new Error("Gagal mengambil data berita.");
-        }
+
+        if (!response.ok) throw new Error("Gagal mengambil data berita.");
 
         const data = await response.json();
-        
         if (data.status === "success" && data.results) {
           setNews(data.results);
         } else {
@@ -52,87 +49,105 @@ export default function NewsCard() {
   }, []);
 
   return (
-    <div  className="w-full bg-gray-900 shadow-xl p-6 border border-gray-700">
-      <div className="flex items-center justify-between mb-6">
-        <h2 className="text-2xl font-bold text-white">News</h2>
-        <div className="grow h-px bg-red-500 mx-4"></div>
+    <div
+      className="
+      relative w-full p-8 shadow-xl 
+      border border-gray-700 overflow-hidden
+      bg-linear-to-b from-[#0B0F24] via-[#0E1633] to-[#111827]
+      "
+    >
+      {/* LIGHT Nebula Overlay */}
+      <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1444703686981-a3abbc4d4fe3?auto=format&fit=crop&w=1400&q=80')] bg-cover bg-center opacity-20 mix-blend-screen -z-10"></div>
+
+      {/* Dark Blur Overlay */}
+      <div className="absolute inset-0 bg-black/40 backdrop-blur-sm -z-10"></div>
+
+      {/* Header */}
+      <div className="flex items-center justify-between mb-6 relative z-10">
+        <h2 className="text-3xl font-bold text-white tracking-wide">
+          Weather News
+        </h2>
+        <div className="grow h-px bg-blue-500 mx-4"></div>
       </div>
 
+      {/* Loading */}
       {loading && (
-        <div className="flex justify-center items-center h-64">
+        <div className="flex justify-center items-center h-64 relative z-10">
           <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500"></div>
         </div>
       )}
 
+      {/* Error */}
       {error && (
-        <div className="text-center text-red-400 p-4 bg-red-900/20 rounded-lg border border-red-800">
+        <div className="text-center text-red-400 p-4 bg-red-900/20 rounded-lg border border-red-800 relative z-10">
           <p>Terjadi kesalahan: {error}</p>
         </div>
       )}
 
+      {/* No News */}
       {!loading && !error && news.length === 0 && (
-        <div className="text-center text-gray-400 p-4">
+        <div className="text-center text-gray-400 p-4 relative z-10">
           <p>Tidak ada berita cuaca terkini.</p>
         </div>
       )}
 
+      {/* News Cards */}
       {!loading && !error && news.length > 0 && (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+        <div className="grid gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 relative z-10">
           {news.map((item, index) => (
             <article
               key={index}
-              className="bg-gray-800 rounded-lg overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 flex flex-col"
+              className="
+              bg-gray-800/40 backdrop-blur-md border border-gray-700 
+              rounded-xl overflow-hidden shadow-lg 
+              hover:shadow-blue-500/30 transition-all duration-300 
+              transform hover:-translate-y-1 flex flex-col
+              "
             >
               <a href={item.link} target="_blank" rel="noopener noreferrer">
                 {item.image_url ? (
-                  <div className="relative h-48 w-full">
+                  <div className="relative h-52 w-full">
                     <Image
                       src={item.image_url}
                       alt={item.title || "Gambar berita"}
                       fill
                       className="object-cover"
-                      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                      sizes="100vw"
                       onError={(e) => {
-                        // Jika gambar gagal dimuat, ganti dengan placeholder
                         const target = e.target as HTMLImageElement;
-                        target.style.display = 'none';
-                        const parent = target.parentElement;
-                        if (parent) {
-                          const placeholder = document.createElement('div');
-                          placeholder.className = 'h-48 bg-gray-700 flex items-center justify-center';
-                          placeholder.innerHTML = '<span class="text-gray-500 text-sm">Gambar tidak tersedia</span>';
-                          parent.appendChild(placeholder);
-                        }
+                        target.style.display = "none";
                       }}
                     />
                   </div>
                 ) : (
-                  <div className="h-48 bg-gray-700 flex items-center justify-center">
-                    <span className="text-gray-500 text-sm">Tidak ada gambar</span>
+                  <div className="h-52 bg-gray-700 flex items-center justify-center">
+                    <span className="text-gray-500 text-sm">
+                      Tidak ada gambar
+                    </span>
                   </div>
                 )}
               </a>
 
               <div className="p-4 flex flex-col grow">
                 <a href={item.link} target="_blank" rel="noopener noreferrer">
-                  <h3 className="text-white font-semibold text-lg mb-2 line-clamp-2 hover:text-blue-400 transition-colors">
+                  <h3 className="text-white font-semibold text-lg mb-3 line-clamp-2 hover:text-blue-400 transition-colors">
                     {item.title}
                   </h3>
                 </a>
-                
-                <p className="text-gray-400 text-sm mb-4 line-clamp-3 grow">
+
+                <p className="text-gray-400 text-sm mb-4 line-clamp-3 grow leading-relaxed">
                   {item.description}
                 </p>
-                
-                <div className="flex justify-between items-center text-xs">
-                  <span className="text-gray-500">
-                    {new Date(item.pubDate).toLocaleDateString('id-ID', {
-                      day: 'numeric',
-                      month: 'long',
-                      year: 'numeric',
+
+                <div className="flex justify-between items-center text-xs text-gray-500 mt-auto border-t border-gray-700 pt-3">
+                  <span>
+                    {new Date(item.pubDate).toLocaleDateString("id-ID", {
+                      day: "numeric",
+                      month: "long",
+                      year: "numeric",
                     })}
                   </span>
-                  <span className="text-gray-500">Sumber: {item.source_id}</span>
+                  <span>Sumber: {item.source_id}</span>
                 </div>
               </div>
             </article>
