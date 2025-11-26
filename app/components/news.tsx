@@ -55,7 +55,7 @@ export default function NewsCard() {
   }, []); // Hanya dijalankan sekali saat komponen dimuat
 
   return (
-    <div className="w-300 bg-gray-900 rounded-2xl shadow-xl border border-gray-700 p-6 absolute top-30 left-0">
+    <div className="w-250 bg-gray-900 rounded-2xl shadow-xl border border-gray-700 p-6 pr-100">
       {/* Header dengan judul "News" dan garis merah aksen */}
       <div className="flex items-center justify-between mb-6">
         <h2 className="text-2xl font-bold text-white">News</h2>

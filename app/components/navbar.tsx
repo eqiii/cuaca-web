@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-
+import newsi from "../newsi/page";
 export default function Navbar() {
   return (
   <nav
@@ -25,8 +25,8 @@ export default function Navbar() {
       <Link href="/" className="text-gray-300 hover:text-white transition">
         Home
       </Link>
-      <Link href="/about" className="text-gray-300 hover:text-white transition">
-        About
+      <Link href="#berita" className="text-gray-300 hover:text-white transition">
+        More News
       </Link>
       <Link href="/contact" className="text-gray-300 hover:text-white transition">
         Contact

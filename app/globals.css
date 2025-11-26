@@ -31,3 +31,7 @@
   from { transform: translate(0, 0); }
   to { transform: translate(-200px, -200px); }
 }
+
+html {
+  scroll-behavior: smooth;
+}

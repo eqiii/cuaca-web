@@ -52,7 +52,7 @@ export default function NewsCard() {
   }, []);
 
   return (
-    <div className="w-full bg-gray-900 shadow-xl p-6 border border-gray-700">
+    <div  className="w-full bg-gray-900 shadow-xl p-6 border border-gray-700">
       <div className="flex items-center justify-between mb-6">
         <h2 className="text-2xl font-bold text-white">News</h2>
         <div className="grow h-px bg-red-500 mx-4"></div>

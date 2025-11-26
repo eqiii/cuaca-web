@@ -1,11 +1,13 @@
-import Berita from "./newsi"
-import Rumah from "./rumah";
+import Berita from "./newsi/page"
+import Rumah from "./rumah/page";
 export default function Home() {
   return (
     <div>
-      <Rumah />
+      <section id="rumah"><Rumah /></section>
+      
       <div className="min-h-screen flex items-center justify-center w-full  ">
-      <Berita />
+      <section id="berita"><Berita /></section>
+      
       </div>
     </div>
   )
