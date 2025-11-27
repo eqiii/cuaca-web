@@ -52,12 +52,12 @@ export default function NewsCard() {
     <div
       className="
       relative w-full p-8 shadow-xl 
-      border border-gray-700 overflow-hidden
-      bg-linear-to-b from-[#0B0F24] via-[#0E1633] to-[#111827]
+       backdrop-blur-sm 
+    bg-black/40
       "
     >
       {/* LIGHT Nebula Overlay */}
-      <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1444703686981-a3abbc4d4fe3?auto=format&fit=crop&w=1400&q=80')] bg-cover bg-center opacity-20 mix-blend-screen -z-10"></div>
+      
 
       {/* Dark Blur Overlay */}
       <div className="absolute inset-0 bg-black/40 backdrop-blur-sm -z-10"></div>
