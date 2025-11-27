@@ -17,7 +17,7 @@ export default function Navbar() {
     
     {/* Logo */}
     <div className="flex items-center gap-2">
-      <span className="text-2xl font-semibold text-white">Weather</span>
+      <span className="text-2xl font-semibold text-white">Rainews</span>
     </div>
 
     {/* Menu */}
@@ -28,8 +28,8 @@ export default function Navbar() {
       <Link href="#berita" className="text-gray-300 hover:text-white transition">
         More News
       </Link>
-      <Link href="/contact" className="text-gray-300 hover:text-white transition">
-        Contact
+      <Link href="#about" className="text-gray-300 hover:text-white transition">
+        About
       </Link>
     </div>
 
